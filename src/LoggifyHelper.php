@@ -73,10 +73,12 @@ class LoggifyHelper
 
         $db_number = config('loggify.database.redis.database');
 
+        $keyspace_available = array_key_exists("db$db_number", $info['Keyspace']);
+
         return [
             'db' => [
-                'total_keys' => $info['Keyspace']["db$db_number"]['keys'],
-                'expirable_keys' => $info['Keyspace']["db$db_number"]['expires'],
+                'total_keys' => $keyspace_available ? $info['Keyspace']["db$db_number"]['keys'] : 0,
+                'expirable_keys' => $keyspace_available ? $info['Keyspace']["db$db_number"]['expires'] : 0,
                 'used_memory' => $info['Memory']['used_memory_human'],
                 'used_memory_peak' => $info['Memory']['used_memory_peak_human'],
                 'redis_version' => $info['Server']['redis_version']
