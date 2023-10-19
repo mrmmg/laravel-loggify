@@ -30,7 +30,8 @@ return [
         'channels' => [
             'loggify' => [
                 'driver'  => 'custom',
-                'via' => \Mrmmg\LaravelLoggify\Monolog\RedisLogger::class
+                'via' => \Mrmmg\LaravelLoggify\Monolog\RedisLogger::class,
+                'ignore_exceptions' => false
             ]
         ]
     ],
