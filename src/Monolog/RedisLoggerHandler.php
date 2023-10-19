@@ -16,7 +16,7 @@ class RedisLoggerHandler extends AbstractProcessingHandler
     {
         $this->redis = LoggifyHelper::redisConnection();
 
-        $this->reids_expire_time = config('laravelLoggify.log_expire_seconds', 60*60);
+        $this->reids_expire_time = config('loggify.log_expire_seconds', 60*60);
 
         parent::__construct($level, $bubble);
     }

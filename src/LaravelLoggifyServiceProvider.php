@@ -66,14 +66,14 @@ class LaravelLoggifyServiceProvider extends ServiceProvider
     private function extendApplicationLoggingConnections(): void
     {
         config([
-            "logging.channels.loggify" => config("laravelLoggify.logging.channels.loggify")
+            "logging.channels.loggify" => config("loggify.logging.channels.loggify")
         ]);
     }
 
     private function extendApplicationRedisConnections(): void
     {
         config([
-            "database.redis.loggify" => config('laravelLoggify.database.redis')
+            "database.redis.loggify" => config('loggify.database.redis')
         ]);
     }
 }
