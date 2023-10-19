@@ -31,9 +31,9 @@ class RedisLoggerHandler extends AbstractProcessingHandler
             $tag = "ids_tag::$tag";
 
             $this->redis->rpush($tag, $this->uuid);
-            $this->redis->expire($tag, $this->reids_expire_time);
 
-            $this->redis->zincrby("loggify::tags", 1, $tag);
+            //$this->redis->expire($tag, $this->reids_expire_time);
+            //$this->redis->zincrby("loggify::tags", 1, $tag);
 
             //todo: if the config limit set implement this method
             //$this->redis->ltrim($tag, -1000, -1);
