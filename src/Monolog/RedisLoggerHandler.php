@@ -4,17 +4,19 @@ namespace Mrmmg\LaravelLoggify\Monolog;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
+use Mrmmg\LaravelLoggify\LoggifyHelper;
 
 class RedisLoggerHandler extends AbstractProcessingHandler
 {
     private string $uuid;
     private $redis;
+    private $reids_expire_time;
 
     public function __construct($level = Logger::DEBUG, bool $bubble = true)
     {
-        $this->redis = app('redis')
-            ->connection('default')
-            ->client();
+        $this->redis = LoggifyHelper::redisConnection();
+
+        $this->reids_expire_time = config('laravelLoggify.log_expire_seconds', 60*60);
 
         parent::__construct($level, $bubble);
     }
@@ -29,7 +31,7 @@ class RedisLoggerHandler extends AbstractProcessingHandler
             $tag = "ids_tag::$tag";
 
             $this->redis->rpush($tag, $this->uuid);
-            $this->redis->expire($tag, 86400);
+            $this->redis->expire($tag, $this->reids_expire_time);
 
             $this->redis->zincrby("loggify::tags", 1, $tag);
 
@@ -39,7 +41,7 @@ class RedisLoggerHandler extends AbstractProcessingHandler
 
         $this->redis->setex(
             $this->uuid,
-            86400,
+            $this->reids_expire_time,
             $record['formatted']
         );
     }

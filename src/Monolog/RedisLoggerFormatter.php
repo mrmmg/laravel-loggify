@@ -38,6 +38,8 @@ class RedisLoggerFormatter implements FormatterInterface
             "LOG_TYPE_$record[level_name]"
         ];
 
+        $record['trace'] = NULL;
+
         if (in_array($record['level'], [
             Logger::DEBUG,
             Logger::ALERT,
@@ -47,8 +49,6 @@ class RedisLoggerFormatter implements FormatterInterface
             Logger::WARNING
         ], true)) {
             $record['trace'] = $this->getDebugTrace();
-        } else {
-            $record['trace'] = NULL;
         }
 
         if (isset($record['context']['tags'])) {

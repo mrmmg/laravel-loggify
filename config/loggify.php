@@ -45,7 +45,7 @@ return [
    | This value contains the maximum number of seconds that a redis item can remain in the database.
    */
 
-    'log_expire_seconds' => 24*60*60,
+    'log_expire_seconds' => 60*60,
 
     //    'max_tag_items' => 10,
 
