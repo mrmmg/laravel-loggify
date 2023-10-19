@@ -1,0 +1,38 @@
+{
+    "name": "mrmmg/laravel_logify",
+    "license": "MIT",
+    "description": "A Laravel package that provides an easy and efficient way to store log messages using Redis.",
+    "type": "package",
+    "keywords": [
+        "laravel",
+        "redis",
+        "logging",
+        "log messages"
+    ],
+    "authors": [
+        {
+            "name": "Mrmmg",
+            "email": "mrmmg76+github@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.0.2",
+        "illuminate/redis": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mrmmg\\LaravelLoggify\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mrmmg\\LaravelLoggify\\LaravelLoggifyServiceProvider"
+            ],
+            "aliases": {
+                "Loggify": " Mrmmg\\LaravelLoggify\\Facades\\Loggify"
+            }
+        }
+    }
+}
