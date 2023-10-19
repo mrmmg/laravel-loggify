@@ -8,9 +8,10 @@
     <title>Loggify</title>
 
     <link href="{{ asset('vendor/loggify/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('vendor/loggify/css/loggify.css') }}" rel="stylesheet"/>
 </head>
 
-<body data-bs-theme="dark">
+<body data-bs-theme="light">
 
 @include('loggify::components.navbar', ['information' => $information])
 
@@ -19,5 +20,6 @@
 </div>
 
 <script src="{{ asset('vendor/loggify/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('vendor/loggify/js/loggify.js')  }}"></script>
 </body>
 </html>
