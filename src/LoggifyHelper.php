@@ -63,13 +63,7 @@ class LoggifyHelper
     {
         $info = self::redisConnection()->info();
 
-        $tags = self::redisConnection()->zrange("loggify::tags", 0, -1, ['WITHSCORES' => true ]);
-
-        $tags = Arr::keyBy($tags, function ($value, $key){
-            return str_replace("ids_tag::", "", $key);
-        });
-
-        uasort($tags, fn($a,$b) => $b <=> $a);
+        $tags_count = self::getTagsCount();
 
         $db_number = config('loggify.database.redis.database');
 
@@ -84,7 +78,7 @@ class LoggifyHelper
                 'redis_version' => $info['Server']['redis_version']
             ],
 
-            'tags' => $tags
+            'tags' => $tags_count
         ];
     }
 
@@ -96,5 +90,32 @@ class LoggifyHelper
                 }
             });
         }
+    }
+
+    /**
+     * @return array
+     */
+    private static function getTagsCount(): array
+    {
+        $tags = self::redisConnection()->keys('ids_tag::*');
+
+        $redis_prefix = config('database.redis.options.prefix');
+
+        $tags = array_map(function ($tag) use ($redis_prefix) {
+            return str_replace($redis_prefix, "", $tag);
+        }, $tags);
+
+        $tags_count = [];
+
+        Redis::transaction(function () use ($tags, &$tags_count) {
+            foreach ($tags as $tag) {
+                $count = self::redisConnection()->lLen($tag);
+                $tag = str_replace("ids_tag::", "", $tag);
+                $tags_count[$tag] = $count;
+            }
+        });
+
+        uasort($tags_count, fn($a, $b) => $b <=> $a);
+        return $tags_count;
     }
 }
