@@ -14,7 +14,7 @@
                             <div class="d-flex justify-content-between flex-grow-1">
                                 <span>{{$log['message']}}</span>
                                 <span
-                                    class="me-2">{{\Carbon\Carbon::parse($log['datetime'])->format('Y-m-d H:i:s.u')}}</span>
+                                    class="me-2">{{\Carbon\Carbon::parse($log['datetime'])->format('Y/m/d H:i:s.u')}}</span>
                             </div>
                         </button>
                     </h2>
