@@ -17,7 +17,7 @@
                     <tbody class="table-group-divider">
                     @foreach($information['tags'] as $tag_name => $count_items)
                         <tr>
-                            <td><a href="#" class="text-decoration-none">{{$tag_name}}</a></td>
+                            <td><a href="{{route('loggify.view_tag', ['tag' => $tag_name])}}" class="text-decoration-none">{{$tag_name}}</a></td>
                             <td>{{$count_items}}</td>
                         </tr>
                     @endforeach

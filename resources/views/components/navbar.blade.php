@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid d-flex justify-between">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{route('loggify.view_tag')}}">
             <h4>Loggify</h4>
         </a>
 

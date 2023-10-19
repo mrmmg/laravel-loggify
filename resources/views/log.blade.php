@@ -78,7 +78,7 @@
                                     @endphp
 
                                     @foreach($log['tags'] as $tag)
-                                        <a href="/loggify/{{$tag}}"><span class="badge {{$badge_class}}">{{$tag}}</span></a>
+                                        <a href="{{route('loggify.view_tag', ['tag' => $tag])}}"><span class="badge {{$badge_class}}">{{$tag}}</span></a>
                                     @endforeach
                                 </div>
 
