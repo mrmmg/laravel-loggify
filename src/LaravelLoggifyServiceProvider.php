@@ -27,9 +27,6 @@ class LaravelLoggifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/loggify.php', 'laravelLoggify');
-
-        $this->registerFacades();
-
     }
 
     private function publishConfig()
@@ -37,13 +34,6 @@ class LaravelLoggifyServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/loggify.php' => config_path('loggify.php'),
         ], 'config');
-    }
-
-    private function registerFacades()
-    {
-        $this->app->bind('loggify', function ($app) {
-            return new stdClass();
-        });
     }
 
     private function registerRoutes()
