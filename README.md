@@ -60,7 +60,129 @@ This option control each log tag can hold how many items.
 
 This options control access to loggify web panel with laravel middlewares.
 
+## Usage
+By use laravel Log Facade you can use loggify.
+### Examples
+```php
+use Illuminate\Support\Facades\Log;
 
+Log::channel('loggify')->info("Info Log Sample");
+```
+
+So where is the extra options?!
+
+The second parameter of laravel log methods called `context`, the loggify use this to manage `tags` and `extra` log data. let's complete the previous example:
+
+```php
+use Illuminate\Support\Facades\Log;
+
+Log::channel('loggify')
+            ->info("Info Log Sample", [
+                'tags' => ['MY_CUSTOM_TAG']
+            ]);
+```
+Done! you create a log that tagged with `MY_CUSTOM_TAG`! you can use as many as you want for tagging, there is no limit.
+
+```php
+use Illuminate\Support\Facades\Log;
+
+$user_id = \Illuminate\Support\Facades\Auth::id();
+$user_type = ...;
+
+Log::channel('loggify')
+            ->info("User Logged-In", [
+                'tags' => [
+                    "USER_$user_id",
+                    "API_VERSION_1",
+                    "USER_TYPE_$user_type"
+                ]
+            ]);
+```
+
+Add extra data to log context
+
+```php
+use Illuminate\Support\Facades\Log;
+
+Log::channel('loggify')
+            ->info("Info Log Sample", [
+                'tags' => ['INFO'],
+                'extra' => ['Application Locale' => config('app.locale')]
+            ]);
+```
+
+The other `context` elements store as `context` in log stack (the default laravel behavior).
+
+```php
+use Illuminate\Support\Facades\Log;
+
+Log::channel('loggify')
+            ->info("Info Log Sample", [
+                'tags' => ['INFO'],
+                'extra' => ['Application Locale' => config('app.locale')],
+                'request_data' => $request->all()
+            ]);
+```
+
+In above example the `request_data` stores in `context` but the `tags` and `extra` stores in other log part.
+
+### Trace System
+Loggify can help you to debug/find issues of you application by storing the php debug backtrace feature, you don't need to do anything, the Loggify store backtrace for log with these type
+
+- debug
+- alert
+- critical
+- emergency
+- error
+- warning
+
+#### Examples
+```php
+use Illuminate\Support\Facades\Log;
+
+Log::channel('loggify')
+            ->debug(...)
+            
+Log::channel('loggify')
+            ->alert(...)
+
+Log::channel('loggify')
+            ->critical(...)
+
+Log::channel('loggify')
+            ->emergency(...)
+
+Log::channel('loggify')
+            ->error(...)
+
+Log::channel('loggify')
+            ->warning(...)
+```
+
+All above log example store the debug backtrace in database, and you can view them in Loggify web panel.
+
+### The Default Tags
+By default, Loggify add two tags to your tags, `ALL_LOGS` and `LOG_TYPE_{laravel_log_type}`. for example:
+
+```php
+use Illuminate\Support\Facades\Log;
+
+Log::channel('loggify')
+            ->info("Info Log Sample", [
+                'tags' => ['INFO'],
+                'extra' => ['Application Locale' => config('app.locale')],
+                'request_data' => $request->all()
+            ]);
+```
+
+The above log can be found in web panel with `ALL_LOGS`, `LOG_TYPE_INFO` and `INFO` tag.
+
+### Web Panel
+To view to stored log you can open a browser and use `/loggify` route to view you logs.
+
+By passing the log tag after that url the Loggify shows the tag logs, for example `/loggify/ALERT` show all logs that tagged with `ALERT` tag.
+
+#### Screenshots
 
 
 
