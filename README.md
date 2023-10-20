@@ -184,6 +184,15 @@ By passing the log tag after that url the Loggify shows the tag logs, for exampl
 
 #### Screenshots
 
+##### Dark/Light Theme
+![Loggify Dark Theme](art/loggify_theme_dark.png)
+![Loggify Light Theme](art/loggify_theme_light.png)
+
+##### Log with Trace
+![Loggify Trace Log Sample](art/loggify_trace_sample.png)
+
+##### Tags Information
+![Loggify Light Theme](art/loggify_tags_information_table.png)
 
 
 ## Todo
