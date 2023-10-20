@@ -38,16 +38,17 @@ return [
 
     /*
    |--------------------------------------------------------------------------
-   | Log Expire Time
+   | Log Settings
    |--------------------------------------------------------------------------
    |
    | In redis we stored items with expiration time.
    | This value contains the maximum number of seconds that a redis item can remain in the database.
+   | And we can control the max tag items to control redis memory usage.
    */
 
-    'log_expire_seconds' => 60*60,
+    'log_expire_seconds' => 24*60*60,
 
-    //    'max_tag_items' => 10,
+    'max_tag_items' => 2500,
 
     'guard' => ['web'],
 ];
