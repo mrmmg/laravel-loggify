@@ -1,5 +1,5 @@
 {
-    "name": "mrmmg/laravel_logify",
+    "name": "mrmmg/laravel_loggify",
     "license": "MIT",
     "description": "A Laravel package that provides an easy and efficient way to store log messages using Redis.",
     "type": "package",
