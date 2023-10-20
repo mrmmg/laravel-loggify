@@ -5,6 +5,8 @@ namespace Mrmmg\LaravelLoggify;
 
 
 use Illuminate\Support\ServiceProvider;
+use Mrmmg\LaravelLoggify\Console\Commands\InstallLoggify;
+use Mrmmg\LaravelLoggify\Console\Commands\PublishAssets;
 use stdClass;
 
 class LaravelLoggifyServiceProvider extends ServiceProvider
@@ -27,13 +29,14 @@ class LaravelLoggifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/loggify.php', 'laravelLoggify');
+        $this->registerCommands();
     }
 
     private function publishConfig()
     {
         $this->publishes([
             __DIR__ . '/../config/loggify.php' => config_path('loggify.php'),
-        ], 'config');
+        ], 'loggify-config');
     }
 
     private function registerRoutes()
@@ -45,12 +48,20 @@ class LaravelLoggifyServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../resources/assets' => public_path('vendor/loggify'),
-        ], 'assets');
+        ], 'loggify-assets');
     }
 
     private function registerViews()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'loggify');
+    }
+
+    private function registerCommands(): void
+    {
+        $this->commands([
+            PublishAssets::class,
+            InstallLoggify::class
+        ]);
     }
 
     private function extendApplicationLoggingConnections(): void
