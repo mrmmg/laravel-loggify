@@ -12,7 +12,7 @@ Since this package use redis to store and manage logs please consider to configu
 
 ### Installation
 ```shell
-composre require mrmmg/laravel_loggify 
+composer require mrmmg/laravel_loggify 
 ```
 
 Then Publish loggify assets & config with running
