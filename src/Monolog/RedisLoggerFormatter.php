@@ -61,15 +61,42 @@ class RedisLoggerFormatter implements FormatterInterface
         }
 
         if (isset($record['context']['extra'])) {
-            $record['extra'] = (array) $record['context']['extra'];
+            $record['extra'] = (array)$record['context']['extra'];
             unset($record['context']['extra']);
         }
 
         return $record;
     }
 
-    private function getDebugTrace()
+    private function getDebugTrace(): array
     {
-        return debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+        return $this->sanitizeTraceLog($traces);
+    }
+
+    /**
+     * @param array $traces
+     * @return array
+     */
+    private function sanitizeTraceLog(array $traces): array
+    {
+        $removeFromDebugBackTrace = [
+            'Mrmmg\LaravelLoggify',
+            'Monolog',
+            \Illuminate\Log\Logger::class
+        ];
+
+        foreach ($traces as $index => $trace) {
+            if (array_key_exists('class', $trace)
+                &&
+                Str::contains($trace['class'], $removeFromDebugBackTrace)
+            ) {
+                unset($traces[$index]);
+            }
+        }
+
+        //reset array keys
+        return array_values($traces);
     }
 }
