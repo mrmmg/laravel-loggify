@@ -1,32 +1,29 @@
 # Loggify
-Manage Laravel Logs With Tag & Extra Powerful Options.
+Managing Laravel Logs with Tags and Enhanced Options.
 ### The meaning
 Based on ChatGPT response `"Loggify" is not a standard word in the English language, and it doesn't have an established definition. you can define it as something like: To streamline or enhance the process of creating and managing logs or records, especially in a digital or data-driven context. This may involve automating log generation, improving log organization, or making logs more user-friendly for analysis and monitoring purposes.`
 ### What do this package?
-This package helps Laravel developers to store application log in redis database (for now!) and also categorize the logs with a tag system! then they can walk through in logs with tags.
-
+This package assists Laravel developers in storing application logs in a Redis database (currently supported) and provides a convenient system for categorizing these logs using tags. This allows developers to easily navigate through logs based on their assigned tags.
 ## Getting Started
 
 ### Before Install
-Since this package use redis to store and manage logs please consider to configure laravel to works with redis. Also remember that install the redis requirement for laravel like `predis`.
-
+Since this package utilizes Redis to store and manage logs, it's important to configure Laravel to work seamlessly with Redis. Additionally, make sure to install the necessary Redis requirements for Laravel, such as `predis`.
 ### Installation
 ```shell
 composer require mrmmg/laravel_loggify 
 ```
 
-Then Publish loggify assets & config with running
+Next, you'll need to publish the Loggify assets and configuration by running:
 ```shell
 php artisan loggify:install
 ```
-This command create `loggify.php` config file in `config` directory and create loggify assets in `public/verndor/loggify`.
+This command create `loggify.php` configuration file in `config` directory and create loggify assets in `public/verndor/loggify`.
 
 ## Configuration
-The `loggify.php` config file is self documented with comment blocks, however I explain again:
+The `loggify.php` configuration file is self-documented with comment blocks. Nevertheless, I will provide an explanation for clarity:
 
 #### Database and Redis ```database.redis```
-
-Like Laravel `config/database.php` this section describe the redis connection, you can change them. By default, all logs stores in redis database 10.
+Similar to Laravel `config/database.php`, this section describes the Redis connection settings, which you can customize to fit your requirements. By default, all logs are stored in Redis database 10.
 ```php
 'database' => [
         'redis' => [
@@ -43,25 +40,24 @@ Like Laravel `config/database.php` this section describe the redis connection, y
 ```
 
 ### Logging ```logging```
-
-This section is used to define loggify log channel option. You don't need to change anything in this section.
+This section is used to define Loggify log channel options. There's generally no need to make changes in this section.
 
 ### Log Expiration ```log_expire_seconds```
-
-Redis is an in-memory database, and we cannot use too much memory for logs, so we can define how many seconds that the redis holds log items By Default it holds log items for 1 day (86400 seconds).
+Redis is an in-memory database, and it's crucial to manage memory usage for logs. Therefore, you can specify how many seconds Redis should retain log items. By default, log items are retained for 1 day, which equals 86,400 seconds.
 
 ### Log Tag Limits ```max_tag_items```
 **Not Implemented Yet**
 
-This option control each log tag can hold how many items.
+This option will control how many log items each log tag can hold, although it is not yet implemented.
 
 ### Guards ```guard```
 **Not Implemented Yet**
 
-This options control access to loggify web panel with laravel middlewares.
+These options control access to the Loggify web panel using Laravel middlewares.
 
 ## Usage
-By use laravel Log Facade you can use loggify.
+By using the Laravel Log Facade, you can integrate Loggify.
+
 ### Examples
 ```php
 use Illuminate\Support\Facades\Log;
@@ -69,10 +65,9 @@ use Illuminate\Support\Facades\Log;
 Log::channel('loggify')->info("Info Log Sample");
 ```
 
-So where is the extra options?!
+Where are the enhanced options?
 
-The second parameter of laravel log methods called `context`, the loggify use this to manage `tags` and `extra` log data. let's complete the previous example:
-
+The second parameter of Laravel log methods, referred to as context, is leveraged by Loggify to manage both log 'tags' and 'extra' log data. Let's continue with the previous example:
 ```php
 use Illuminate\Support\Facades\Log;
 
@@ -81,7 +76,8 @@ Log::channel('loggify')
                 'tags' => ['MY_CUSTOM_TAG']
             ]);
 ```
-Done! you create a log that tagged with `MY_CUSTOM_TAG`! you can use as many as you want for tagging, there is no limit.
+
+Great! You've successfully created a log tagged with `MY_CUSTOM_TAG`. You can use as many tags as you need; there are no set limits.
 
 ```php
 use Illuminate\Support\Facades\Log;
@@ -99,7 +95,7 @@ Log::channel('loggify')
             ]);
 ```
 
-Add extra data to log context
+To add extra data to the log context:
 
 ```php
 use Illuminate\Support\Facades\Log;
@@ -111,8 +107,7 @@ Log::channel('loggify')
             ]);
 ```
 
-The other `context` elements store as `context` in log stack (the default laravel behavior).
-
+Other elements within the context are stored under the context key in the log stack, following the default Laravel behavior.
 ```php
 use Illuminate\Support\Facades\Log;
 
@@ -124,11 +119,9 @@ Log::channel('loggify')
             ]);
 ```
 
-In above example the `request_data` stores in `context` but the `tags` and `extra` stores in other log part.
-
+In the above example, the request_data is stored in the context, while the tags and extra are stored in other parts of the log.
 ### Trace System
-Loggify can help you to debug/find issues of you application by storing the php debug backtrace feature, you don't need to do anything, the Loggify store backtrace for log with these type
-
+Loggify can assist you in debugging and identifying issues within your application by automatically storing the PHP debug backtrace feature. You don't need to take any additional steps; Loggify stores the backtrace for logs of the following types:
 - debug
 - alert
 - critical
@@ -159,7 +152,7 @@ Log::channel('loggify')
             ->warning(...)
 ```
 
-All above log example store the debug backtrace in database, and you can view them in Loggify web panel.
+All the log examples mentioned above store the debug backtrace in the database, and you can view them in the Loggify web panel.
 
 ### The Default Tags
 By default, Loggify add two tags to your tags, `ALL_LOGS` and `LOG_TYPE_{laravel_log_type}`. for example:
@@ -175,12 +168,12 @@ Log::channel('loggify')
             ]);
 ```
 
-The above log can be found in web panel with `ALL_LOGS`, `LOG_TYPE_INFO` and `INFO` tag.
+The log mentioned above can be located in the web panel by filtering with the `ALL_LOGS`, `LOG_TYPE_INFO`, and `INFO` tags.
 
 ### Web Panel
-To view to stored log you can open a browser and use `/loggify` route to view you logs.
+To view the stored logs, open a web browser and navigate to the `yourappurl.example/loggify` route.
 
-By passing the log tag after that url the Loggify shows the tag logs, for example `/loggify/ALERT` show all logs that tagged with `ALERT` tag.
+By passing the log tag after that url the Loggify shows the tag logs, for example `yourappurl.example/loggify/ALERT` show all logs that tagged with `ALERT` tag.
 
 #### Screenshots
 
@@ -194,9 +187,13 @@ By passing the log tag after that url the Loggify shows the tag logs, for exampl
 ##### Tags Information
 ![Loggify Light Theme](art/loggify_tags_information_table.png)
 
+## I need your help!
+We welcome contributions from the community to help enhance this package further. If you'd like to collaborate and make it even better, please feel free to get involved.
 
 ## Todo
+- [ ] Fix Trace System Issues
+- [ ] Implement web panel authorization
 - [ ] Implement tag items limit
-- [ ] Implement access management to web panel
 - [ ] Implement tests
 - [ ] Make Better document and GitHub pages
+- [ ] Re-Design WebPanel
