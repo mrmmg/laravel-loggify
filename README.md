@@ -217,6 +217,7 @@ We welcome contributions from the community to help enhance this package further
 - [x] Implement web panel authorization
 - [x] Implement tag items limit
 - [x] Implement tag expiration
+- [ ] Implement pagination for web panel
 - [ ] Implement tests
 - [ ] Make Better document and GitHub pages
 - [ ] Re-Design WebPanel
