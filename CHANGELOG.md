@@ -1,4 +1,9 @@
 # Changelog
+## [0.5.0] - 2023-10-26
+### Added
+- Web panel authorization control by gate
+- Authorization Control Docs
+
 ## [0.2.0] - 2023-10-20
 ### Added
 - Usage docs
