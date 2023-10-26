@@ -4,7 +4,7 @@ namespace Mrmmg\LaravelLoggify\Monolog;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
-use Mrmmg\LaravelLoggify\LoggifyHelper;
+use Mrmmg\LaravelLoggify\Helpers\LoggifyRedis;
 
 class RedisLoggerHandler extends AbstractProcessingHandler
 {
@@ -14,7 +14,7 @@ class RedisLoggerHandler extends AbstractProcessingHandler
 
     public function __construct($level = Logger::DEBUG, bool $bubble = true)
     {
-        $this->redis = LoggifyHelper::redisConnection();
+        $this->redis = LoggifyRedis::redisConnection();
 
         $this->reids_expire_time = config('loggify.log_expire_seconds', 60*60);
 

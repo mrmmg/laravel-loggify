@@ -4,7 +4,7 @@ namespace Mrmmg\LaravelLoggify\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use Mrmmg\LaravelLoggify\LoggifyHelper;
+use Mrmmg\LaravelLoggify\Helpers\LoggifyRedis;
 
 class LoggifyController extends BaseController
 {
@@ -14,9 +14,9 @@ class LoggifyController extends BaseController
 
         $limit = $request->limit ? (int)$request->limit : null;
 
-        $logs = LoggifyHelper::getTagLogs($tag, $limit);
+        $logs = LoggifyRedis::getTagLogs($tag, $limit);
 
-        $information = LoggifyHelper::getInformation();
+        $information = LoggifyRedis::getInformation();
 
         return view('loggify::log', compact('logs', 'information'));
     }

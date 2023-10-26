@@ -6,7 +6,7 @@ use Illuminate\Redis\RedisManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redis;
 
-class LoggifyRedisHelper
+class LoggifyRedis
 {
     public static function redisConnection()
     {
