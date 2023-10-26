@@ -2,6 +2,8 @@
 
 namespace Mrmmg\LaravelLoggify\Monolog;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Redis;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Mrmmg\LaravelLoggify\Helpers\LoggifyRedis;
@@ -27,16 +29,25 @@ class RedisLoggerHandler extends AbstractProcessingHandler
 
         $this->uuid = $record['uuid'];
 
+        $overflow_ids = [];
+
+        $max_tag_items = abs(config('loggify.max_tag_items'));
+        $is_capped_mode = (bool)$max_tag_items;
+
         foreach ($record['tags'] as $tag){
             $tag = "ids_tag::$tag";
 
             $this->redis->rpush($tag, $this->uuid);
 
             //$this->redis->expire($tag, $this->reids_expire_time);
-            //$this->redis->zincrby("loggify::tags", 1, $tag);
 
-            //todo: if the config limit set implement this method
-            //$this->redis->ltrim($tag, -1000, -1);
+            if($is_capped_mode){
+                $overflow_ids[] = $this->redis
+                    ->lRange($tag, 0, ($max_tag_items + 1) * (-1));
+
+                $this->redis
+                    ->lTrim($tag, (-1*$max_tag_items), -1);
+            }
         }
 
         $this->redis->setex(
@@ -44,5 +55,34 @@ class RedisLoggerHandler extends AbstractProcessingHandler
             $this->reids_expire_time,
             $record['formatted']
         );
+
+        $this->removeOverFlowIdsFromDatabase($overflow_ids);
+    }
+
+    /**
+     * @param array $overflow_ids
+     * @return void
+     */
+    private function removeOverFlowIdsFromDatabase(array $overflow_ids): void
+    {
+        $overflow_ids = $this->flatAndFilterOverFlowIds($overflow_ids);
+
+        if (!empty($overflow_ids)) {
+            Redis::transaction(function () use ($overflow_ids) {
+                foreach ($overflow_ids as $id) {
+                    $this->redis->del($id);
+                }
+            });
+        }
+    }
+
+    /**
+     * @param array $overflow_ids
+     * @return array
+     */
+    private function flatAndFilterOverFlowIds(array $overflow_ids): array
+    {
+        $overflow_ids = Arr::flatten($overflow_ids);
+        return array_filter($overflow_ids);
     }
 }
