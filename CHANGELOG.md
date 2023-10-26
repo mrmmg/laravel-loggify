@@ -1,4 +1,10 @@
 # Changelog
+
+## [0.9.0] - 2023-10-26
+### Added
+- Tag items Limit
+- Tag Expiration
+
 ## [0.5.0] - 2023-10-26
 ### Added
 - Web panel authorization control by gate
