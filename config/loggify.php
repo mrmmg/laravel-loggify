@@ -26,16 +26,6 @@ return [
         ]
     ],
 
-    'logging' => [
-        'channels' => [
-            'loggify' => [
-                'driver'  => 'custom',
-                'via' => \Mrmmg\LaravelLoggify\Monolog\RedisLogger::class,
-                'ignore_exceptions' => false
-            ]
-        ]
-    ],
-
     /*
    |--------------------------------------------------------------------------
    | Log Expiration

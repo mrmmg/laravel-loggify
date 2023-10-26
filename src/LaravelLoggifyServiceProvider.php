@@ -76,7 +76,11 @@ class LaravelLoggifyServiceProvider extends ServiceProvider
     private function extendApplicationLoggingConnections(): void
     {
         config([
-            "logging.channels.loggify" => config("loggify.logging.channels.loggify")
+            "logging.channels.loggify" => [
+                'driver'  => 'custom',
+                'via' => \Mrmmg\LaravelLoggify\Monolog\RedisLogger::class,
+                'ignore_exceptions' => false
+            ]
         ]);
     }
 

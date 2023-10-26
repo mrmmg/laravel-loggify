@@ -44,9 +44,6 @@ Similar to Laravel `config/database.php`, this section describes the Redis conne
     ],
 ```
 
-### Logging ```logging```
-This section is used to define Loggify log channel options. There's generally no need to make changes in this section.
-
 ### Log Expiration ```log_expire_seconds```
 Redis is an in-memory database, and it's crucial to manage memory usage for logs. Therefore, you can specify how many seconds Redis should retain log items. By default, log items are retained for 1 day, which equals 86,400 seconds.
 
