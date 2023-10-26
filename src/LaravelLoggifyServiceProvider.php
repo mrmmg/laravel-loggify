@@ -4,10 +4,12 @@
 namespace Mrmmg\LaravelLoggify;
 
 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Mrmmg\LaravelLoggify\Console\Commands\InstallLoggify;
 use Mrmmg\LaravelLoggify\Console\Commands\PublishAssets;
-use stdClass;
+use Mrmmg\LaravelLoggify\Helpers\LoggifyAuth;
 
 class LaravelLoggifyServiceProvider extends ServiceProvider
 {
@@ -23,7 +25,14 @@ class LaravelLoggifyServiceProvider extends ServiceProvider
         $this->publishAssets();
         $this->registerViews();
 
+        Route::middlewareGroup('loggify-web', [
+            'web',
+            \Mrmmg\LaravelLoggify\Http\Middleware\Authorize::class
+        ]);
+
         $this->registerRoutes();
+
+        $this->authorization();
     }
 
     public function register()
@@ -76,5 +85,22 @@ class LaravelLoggifyServiceProvider extends ServiceProvider
         config([
             "database.redis.loggify" => config('loggify.database.redis')
         ]);
+    }
+
+    private function authorization(): void
+    {
+        $this->gate();
+
+        LoggifyAuth::auth(function () {
+            return app()->environment('local') ||
+                Gate::check('viewLoggify');
+        });
+    }
+
+    private function gate(): void
+    {
+        Gate::define('viewLoggify', function ($user) {
+            //
+        });
     }
 }

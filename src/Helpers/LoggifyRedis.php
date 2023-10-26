@@ -1,12 +1,12 @@
 <?php
 
-namespace Mrmmg\LaravelLoggify;
+namespace Mrmmg\LaravelLoggify\Helpers;
 
 use Illuminate\Redis\RedisManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redis;
 
-class LoggifyHelper
+class LoggifyRedisHelper
 {
     public static function redisConnection()
     {
