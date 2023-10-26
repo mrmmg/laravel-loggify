@@ -180,7 +180,27 @@ To view the stored logs, open a web browser and navigate to the `yourappurl.exam
 
 By passing the log tag after that url the Loggify shows the tag logs, for example `yourappurl.example/loggify/ALERT` show all logs that tagged with `ALERT` tag.
 
-#### Screenshots
+#### Web Panel Authorization
+As logs can contain sensitive data, access control for the Loggify panel can be managed by the following gate in a production environment:
+
+**Note: A suitable place to add this gate is in the `AuthServiceProvider` within the `app/Providers` directory.**
+
+```php
+// AuthServiceProvider::class
+
+public function boot()
+    {
+        // ...
+
+        Gate::define('viewLoggify', function ($user) {
+            
+        });
+    }
+```
+
+The closure function accepts a single argument, which is the authenticated user object. You can utilize this object to determine whether the user can access the /loggify route or not. Please keep in mind that the closure must return a boolean.
+
+### Screenshots
 
 ##### Dark/Light Theme
 ![Loggify Dark Theme](art/loggify_theme_dark.png)
