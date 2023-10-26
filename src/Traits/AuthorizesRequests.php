@@ -4,15 +4,17 @@ namespace Mrmmg\LaravelLoggify\Traits;
 
 trait AuthorizesRequests
 {
+    // This code copied from laravel telescope package :)
+
     /**
-     * The callback that should be used to authenticate Telescope users.
+     * The callback that should be used to authenticate Loggify users.
      *
      * @var \Closure
      */
     public static $authUsing;
 
     /**
-     * Register the Telescope authentication callback.
+     * Register the Loggify authentication callback.
      *
      * @param  \Closure  $callback
      * @return static
@@ -25,7 +27,7 @@ trait AuthorizesRequests
     }
 
     /**
-     * Determine if the given request can access the Telescope dashboard.
+     * Determine if the given request can access the Loggify dashboard.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return bool
