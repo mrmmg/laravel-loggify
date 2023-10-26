@@ -24,7 +24,9 @@ class LoggifyRedis
     {
         $tag = "ids_tag::$tag";
 
-        $members = self::redisConnection()->lrange($tag, 0, -1);
+        $redis_lrange_limit = !is_null($limit) ? $limit : -1;
+
+        $members = self::redisConnection()->lrange($tag, 0, $redis_lrange_limit);
 
         if(empty($members)) {
             return [];

@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.9.2] - 2023-10-26
+### Added
+- set limit to get tag items
+- limit usage documentation
+
 ## [0.9.0] - 2023-10-26
 ### Added
 - Tag items Limit

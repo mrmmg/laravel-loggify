@@ -171,7 +171,11 @@ The log mentioned above can be located in the web panel by filtering with the `A
 ### Web Panel
 To view the stored logs, open a web browser and navigate to the `yourappurl.example/loggify` route.
 
+#### Filter Tag Logs
 By passing the log tag after that url the Loggify shows the tag logs, for example `yourappurl.example/loggify/ALERT` show all logs that tagged with `ALERT` tag.
+
+#### Result Limit
+By passing a `?limit=number` to Loggify route, you can control how many items must be show in web panel, for example if you set `yourappurl.example/loggify?limit=1000` the **latest** 1000 elements shown in panel.
 
 #### Web Panel Authorization
 As logs can contain sensitive data, access control for the Loggify panel can be managed by the following gate in a production environment:
