@@ -2,18 +2,22 @@
 Managing Laravel Logs with Tags and Enhanced Options.
 ### The meaning
 Based on ChatGPT response `"Loggify" is not a standard word in the English language, and it doesn't have an established definition. you can define it as something like: To streamline or enhance the process of creating and managing logs or records, especially in a digital or data-driven context. This may involve automating log generation, improving log organization, or making logs more user-friendly for analysis and monitoring purposes.`
+
 ### What do this package?
 This package assists Laravel developers in storing application logs in a Redis database (currently supported) and provides a convenient system for categorizing these logs using tags. This allows developers to easily navigate through logs based on their assigned tags.
+
 ## Getting Started
 
 ### Before Install
 Since this package utilizes Redis to store and manage logs, it's important to configure Laravel to work seamlessly with Redis. Additionally, make sure to install the necessary Redis requirements for Laravel, such as `predis`.
 ### Installation
+
 ```shell
 composer require mrmmg/laravel_loggify 
 ```
 
 Next, you'll need to publish the Loggify assets and configuration by running:
+
 ```shell
 php artisan loggify:install
 ```
@@ -24,6 +28,7 @@ The `loggify.php` configuration file is self-documented with comment blocks. Nev
 
 #### Database and Redis ```database.redis```
 Similar to Laravel `config/database.php`, this section describes the Redis connection settings, which you can customize to fit your requirements. By default, all logs are stored in Redis database 10.
+
 ```php
 'database' => [
         'redis' => [
@@ -187,12 +192,12 @@ By passing the log tag after that url the Loggify shows the tag logs, for exampl
 ##### Tags Information
 ![Loggify Light Theme](art/loggify_tags_information_table.png)
 
-## I need your help!
+## I need your help 🤝
 We welcome contributions from the community to help enhance this package further. If you'd like to collaborate and make it even better, please feel free to get involved.
 
 ## Todo
-- [ ] Fix Trace System Issues
-- [ ] Implement web panel authorization
+- [x] Fix Trace System Issues
+- [x] Implement web panel authorization
 - [ ] Implement tag items limit
 - [ ] Implement tests
 - [ ] Make Better document and GitHub pages
