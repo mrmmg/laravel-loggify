@@ -49,7 +49,5 @@ return [
    | When the log tag limit is reached, it will remove tags up to the 'max_tag_items' value.
    */
 
-    'max_tag_items' => false,
-
-    'guard' => ['web'],
+    'max_tag_items' => false
 ];
