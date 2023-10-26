@@ -28,14 +28,16 @@ return [
 
     /*
    |--------------------------------------------------------------------------
-   | Log Expiration
+   | Log & Tag Expiration
    |--------------------------------------------------------------------------
    |
    | In redis we stored items with expiration time.
-   | This value contains the maximum number of seconds that a redis item can remain in the database.
+   | This values contains the maximum number of seconds that a redis item can remain in the database.
    */
 
     'log_expire_seconds' => 24*60*60,
+
+    'log_tag_expire_seconds' => false,  //suggest: 1 week OR 1 month
 
     /*
    |--------------------------------------------------------------------------

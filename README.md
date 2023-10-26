@@ -47,15 +47,11 @@ Similar to Laravel `config/database.php`, this section describes the Redis conne
 ### Log Expiration ```log_expire_seconds```
 Redis is an in-memory database, and it's crucial to manage memory usage for logs. Therefore, you can specify how many seconds Redis should retain log items. By default, log items are retained for 1 day, which equals 86,400 seconds.
 
+### Tag Expiration ```log_tag_expire_seconds```
+This option controls whether tags must expire or not. If you set it to a positive number, it indicates the number of seconds each tag can remain in the database. By default, it is set to `false`, which means logs will not expire.
+
 ### Log Tag Limits ```max_tag_items```
-**Not Implemented Yet**
-
-This option will control how many log items each log tag can hold, although it is not yet implemented.
-
-### Guards ```guard```
-**Not Implemented Yet**
-
-These options control access to the Loggify web panel using Laravel middlewares.
+This option will control how many log items each log tag can hold.
 
 ## Usage
 By using the Laravel Log Facade, you can integrate Loggify.
@@ -215,7 +211,8 @@ We welcome contributions from the community to help enhance this package further
 ## Todo
 - [x] Fix Trace System Issues
 - [x] Implement web panel authorization
-- [ ] Implement tag items limit
+- [x] Implement tag items limit
+- [x] Implement tag expiration
 - [ ] Implement tests
 - [ ] Make Better document and GitHub pages
 - [ ] Re-Design WebPanel

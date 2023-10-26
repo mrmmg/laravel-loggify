@@ -31,15 +31,16 @@ class RedisLoggerHandler extends AbstractProcessingHandler
 
         $overflow_ids = [];
 
-        $max_tag_items = abs(config('loggify.max_tag_items'));
+        $max_tag_items = abs(config('loggify.max_tag_items'), false);
         $is_capped_mode = (bool)$max_tag_items;
+
+        $tag_expiration = abs(config('loggify.log_tag_expire_seconds'), false);
+        $expirable_tag = (bool)$tag_expiration;
 
         foreach ($record['tags'] as $tag){
             $tag = "ids_tag::$tag";
 
             $this->redis->rpush($tag, $this->uuid);
-
-            //$this->redis->expire($tag, $this->reids_expire_time);
 
             if($is_capped_mode){
                 $overflow_ids[] = $this->redis
@@ -47,6 +48,10 @@ class RedisLoggerHandler extends AbstractProcessingHandler
 
                 $this->redis
                     ->lTrim($tag, (-1*$max_tag_items), -1);
+            }
+
+            if($expirable_tag){
+                $this->redis->expire($tag, $tag_expiration);
             }
         }
 
