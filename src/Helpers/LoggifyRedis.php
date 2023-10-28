@@ -22,6 +22,30 @@ class LoggifyRedis
 
     public static function getTagLogs($tag, $limit = null): array
     {
+        /**
+         * Todo: Implement pagination in lrange command
+         * the lrange accepts two parameter, start and end
+         * in each page by passing the start and end you can control each page items,
+         * for example with a tag by 10 items and limit = 3 the lrange like this
+         * page1: lrange key 0 2
+         * page2: lrange key 3 5
+         * page3: lrange key 6 8
+         * page4: lrange key 9 11
+         *
+         * in page 2 and more the start is last_page_end + 1 and the end is (page_number * limit) - 1
+         *
+         * total page can be calculated with:
+         * llen key => total elements in key / limit (HALF ROUND MAX)
+         *
+         * previous page can be calculated with:
+         *
+         *
+         * current page can be calculated with:
+         * (end + 1) / limit
+         *
+         * next page can be calculated with:
+         *
+         */
         $tag = "ids_tag::$tag";
 
         $redis_lrange_limit = !is_null($limit) ? $limit : -1;
@@ -48,10 +72,8 @@ class LoggifyRedis
                 return true;
             })
             ->map(fn($item) => unserialize($item))
-            ->keyBy(function ($item) use (&$members) {
-                $pattern = '/^.*' . preg_quote($item['uuid'], '/') . '$/';
-                $regexResult = preg_grep($pattern, $members);
-                return "loggify_" . Arr::first($regexResult);
+            ->keyBy(function ($item) {
+                return "loggify_$item[uuid]";
             })
             ->reverse()
             ->toArray();
