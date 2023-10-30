@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.0] - 2023-10-30
+### Added
+- Pagination for web panel
+- Version 1.0.0 Is now Available!
+
 ## [0.9.2] - 2023-10-26
 ### Added
 - set limit to get tag items
