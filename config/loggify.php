@@ -51,5 +51,12 @@ return [
    | When the log tag limit is reached, it will remove tags up to the 'max_tag_items' value.
    */
 
-    'max_tag_items' => false
+    'max_tag_items' => false,
+
+   /*
+  |--------------------------------------------------------------------------
+  | Web Panel Pagination Limit
+  |--------------------------------------------------------------------------
+  */
+    'per_page_items' => 100,
 ];

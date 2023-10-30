@@ -12,12 +12,13 @@ class LoggifyController extends BaseController
     {
         $tag = is_null($tag) ? "ALL_LOGS" : $tag;
 
-        $limit = $request->limit ? (int)$request->limit : null;
+        $limit = $request->limit ? (int)$request->limit : config('loggify.per_page_item_limit', 100);
+        $page = $request->page ? (int)$request->page : 1;
 
-        $logs = LoggifyRedis::getTagLogs($tag, $limit);
+        $result = LoggifyRedis::getTagLogs($tag, $limit, $page);
 
         $information = LoggifyRedis::getInformation();
 
-        return view('loggify::log', compact('logs', 'information'));
+        return view('loggify::log', compact('result', 'information'));
     }
 }

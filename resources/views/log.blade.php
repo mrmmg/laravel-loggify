@@ -1,14 +1,16 @@
 @extends('loggify::layout.theme', ['information' => $information])
 
 @section('main')
+    @include('loggify::components.pagination', ['result' => $result])
+
     <div class="container my-3">
-            @if(empty($logs))
+            @if(empty($result['logs']))
             <h1 class="display-1 d-flex justify-content-center align-items-center">
                 No Entries Found!
             </h1>
             @else
             <div class="accordion" id="accordion">
-                @foreach($logs as $key => $log)
+                @foreach($result['logs'] as $key => $log)
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button"
@@ -98,4 +100,6 @@
             @endif
         </div>
     </div>
+
+    @include('loggify::components.pagination', ['result' => $result])
 @endsection

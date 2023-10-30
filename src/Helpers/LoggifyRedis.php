@@ -20,37 +20,18 @@ class LoggifyRedis
             ->client();
     }
 
-    public static function getTagLogs($tag, $limit = null): array
+    public static function getTagLogs($tag, $limit, $page): array
     {
-        /**
-         * Todo: Implement pagination in lrange command
-         * the lrange accepts two parameter, start and end
-         * in each page by passing the start and end you can control each page items,
-         * for example with a tag by 10 items and limit = 3 the lrange like this
-         * page1: lrange key 0 2
-         * page2: lrange key 3 5
-         * page3: lrange key 6 8
-         * page4: lrange key 9 11
-         *
-         * in page 2 and more the start is last_page_end + 1 and the end is (page_number * limit) - 1
-         *
-         * total page can be calculated with:
-         * llen key => total elements in key / limit (HALF ROUND MAX)
-         *
-         * previous page can be calculated with:
-         *
-         *
-         * current page can be calculated with:
-         * (end + 1) / limit
-         *
-         * next page can be calculated with:
-         *
-         */
         $tag = "ids_tag::$tag";
 
-        $redis_lrange_limit = !is_null($limit) ? $limit : -1;
+        $total_items = self::redisConnection()->lLen($tag);
 
-        $members = self::redisConnection()->lrange($tag, 0, $redis_lrange_limit);
+        $total_pages = (int)ceil($total_items / $limit);
+
+        $start = ($page - 1) * $limit;
+        $end = ($page * $limit) - 1;
+
+        $members = self::redisConnection()->lrange($tag, $start, $end);
 
         if(empty($members)) {
             return [];
@@ -80,7 +61,16 @@ class LoggifyRedis
 
         self::removeExpiredLogsFromTags($tag, $expired_logs);
 
-        return $logs;
+        return [
+            'logs' => $logs,
+            'pagination' => [
+                'total_pages' => $total_pages,
+                'previous_page' => self::generatePaginationUrl($page - 1, $limit),
+                'next_page' => self::generatePaginationUrl($page + 1, $limit),
+                'has_more' => $page < $total_pages,
+                'is_first_page' => $page === 1
+            ]
+        ];
     }
 
     public static function getInformation(): array
@@ -141,5 +131,17 @@ class LoggifyRedis
 
         uasort($tags_count, fn($a, $b) => $b <=> $a);
         return $tags_count;
+    }
+
+    private static function generatePaginationUrl($page, $limit): ?string
+    {
+        if($page < 1){
+            $page = 1;
+        }
+
+        return route('loggify.view_tag', [
+            'limit' => $limit,
+            'page' => $page
+        ]);
     }
 }

@@ -53,6 +53,9 @@ This option controls whether tags must expire or not. If you set it to a positiv
 ### Log Tag Limits ```max_tag_items```
 This option will control how many log items each log tag can hold.
 
+### Pagination Limit ```per_page_items```
+This option will control web panel each page max items. Default value is 100.
+
 ## Usage
 By using the Laravel Log Facade, you can integrate Loggify.
 
@@ -217,7 +220,7 @@ We welcome contributions from the community to help enhance this package further
 - [x] Implement web panel authorization
 - [x] Implement tag items limit
 - [x] Implement tag expiration
-- [ ] Implement pagination for web panel
+- [x] Implement pagination for web panel
 - [ ] Implement tests
 - [ ] Make Better document and GitHub pages
 - [ ] Re-Design WebPanel

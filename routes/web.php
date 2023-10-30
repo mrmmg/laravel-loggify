@@ -7,9 +7,10 @@ Route::group([
     'prefix' => 'loggify',
     'middleware' => [
         'loggify-web'
-    ]
+    ],
+    'as' => 'loggify.'
 ], function (){
     Route::get('/{tag?}', [LoggifyController::class, 'index'])
-        ->name('loggify.view_tag');
+        ->name('view_tag');
 });
 
