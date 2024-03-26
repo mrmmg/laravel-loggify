@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.1] - 2024-03-26
+### Added
+- Update illuminate/redis version
+
 ## [1.0.0] - 2023-10-30
 ### Added
 - Pagination for web panel
